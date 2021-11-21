@@ -8,11 +8,11 @@ Grupo 01 - Equipo 01
 
 ## Integrantes
 
-Ángela Devia Aldana
-Ángel Ignacio Becerra Valderrama
-Fabián Andrés Domínguez Díaz
-Juan Sebastián Gamba Jacomussi
-Nancy Astrid Barón López
+- Ángela Devia Aldana
+- Ángel Ignacio Becerra Valderrama
+- Fabián Andrés Domínguez Díaz
+- Juan Sebastián Gamba Jacomussi
+- Nancy Astrid Barón López
 
 # Important
 
