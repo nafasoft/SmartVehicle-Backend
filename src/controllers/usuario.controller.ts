@@ -1,29 +1,28 @@
+import {service} from '@loopback/core';
 import {
   Count,
   CountSchema,
   Filter,
   FilterExcludingWhere,
   repository,
-  Where,
+  Where
 } from '@loopback/repository';
 import {
-  post,
-  param,
-  get,
-  getModelSchemaRef,
-  patch,
-  put,
-  del,
-  requestBody,
-  response,
+  del, get,
+  getModelSchemaRef, param, patch, post, put, requestBody,
+  response
 } from '@loopback/rest';
 import {Usuario} from '../models';
 import {UsuarioRepository} from '../repositories';
+import {AutenticacionService} from '../services';
+const fetch = require('node-fetch');
 
 export class UsuarioController {
   constructor(
     @repository(UsuarioRepository)
     public usuarioRepository : UsuarioRepository,
+    @service(AutenticacionService)
+    public servicioAutenticacion: AutenticacionService
   ) {}
 
   @post('/usuarios')
@@ -44,7 +43,20 @@ export class UsuarioController {
     })
     usuario: Omit<Usuario, 'id'>,
   ): Promise<Usuario> {
-    return this.usuarioRepository.create(usuario);
+    let clave = this.servicioAutenticacion.GenerarPassword();
+    let claveCifrada = this.servicioAutenticacion.CifrarPassword(clave);
+    usuario.password = claveCifrada; // agregamos al ppasword la clave cifrada generada por el servicio
+    let p = await this.usuarioRepository.create(usuario);
+
+    //notificar al usuario
+    let destino = usuario.email;
+    let asunto = 'Registro en la plataforma';
+    let contenido = `Hola ${usuario.nombres}, su nombre de usuario es ${usuario.email} y su contraseña es ${clave}`
+    fetch(`http://127.0.0.1:5000/send-email?=corre_destino=${destino}&asunto=${asunto}&contenido=${contenido}`)
+      .then((data:any) => {
+        console.log(data);
+      })
+    return p;
   }
 
   @get('/usuarios/count')
