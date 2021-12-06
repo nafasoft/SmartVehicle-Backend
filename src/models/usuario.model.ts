@@ -30,22 +30,10 @@ export class Usuario extends Entity {
   identificacion: string;
 
   @property({
-    type: 'date',
-    required: false,
-  })
-  nacimiento: string;
-
-  @property({
     type: 'number',
     required: false,
   })
   edad: number;
-
-  @property({
-    type: 'string',
-    required: false,
-  })
-  genero: string;
 
   @property({
     type: 'string',
@@ -61,13 +49,13 @@ export class Usuario extends Entity {
 
   @property({
     type: 'string',
-    required: false,
+    required: true,
   })
   rol: string;
 
   @property({
     type: 'string',
-    required: false,
+    required: true,
   })
   estado: string;
 
